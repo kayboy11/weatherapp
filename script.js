@@ -1,4 +1,4 @@
-const apiKey = "6b10e128870d434eb47111441262303";
+const BACKEND_URL = "https://weather-api-proxy-murex.vercel.app/api/weather.js";
 function getWeather(){
 const city = document.getElementById("city").value.trim();
 const weatherDiv = document.getElementById("weatherResult");
@@ -13,7 +13,7 @@ if(!city) {
     return;
 }
 
-fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`)
+fetch(`${BACKEND_URL}&q=${city}`)
 .then(res => res.json())
 .then(data => {
     if(data.error){
