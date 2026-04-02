@@ -4,87 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #0f172a;
-            color: #fff;
-            text-align: center;
-            padding: 50px;
-        }
-        .input-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        input, button {
-            margin: 10px 0;
-            padding: 10px;
-            border: none;
-        }
-        input{
-            border-radius: 5px 0px 0px 5px;
-        }
-        button{
-            border-radius: 0px 5px 5px 0px;
-            cursor: pointer;
-            background: #3bd3f8;
-        }
-        button:active{
-            background: #38bd;
-        }
-        @media (max-width: 400px) {
-            .input-box{
-                flex-direction: column;
-                gap: 5px;
-            }
-            input, button {
-                margin: 0;
-                width: 100%;
-            }
-            input{
-                border-radius: 5px 5px 0px 0px;
-            }
-            button{
-                border-radius: 0px 0px 5px 5px;
-            }
-        }
-        .weather-box, .error-box {
-            margin-top: 20px;
-            padding: 20px;
-            display: inline-block;
-            border-radius: 10px;
-            max-width: 500px;
-            width: 100%;
-            word-break: break-word;
-        }
-        .weather-box{
-            background: #1e293b;
-        }
-        .error-box{
-            background: #f0c7c7;
-            color: crimson;
-            text-align: left;
-        }
-        .weather-box, .error-box{
-            display: none;
-        }
-        img{
-            max-width: 50px;
-            height: auto;
-            vertical-align: middle;
-        }
-        .field{
-            margin: 5px 0;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 </head>
 <body>
     <h2>Weather App</h2>
@@ -96,57 +17,6 @@
     <div id="errorMsg" class="error-box">error</div>
 
     <div id="weatherResult" class="weather-box"></div>
-    <script>
-        const apiKey = "6b10e128870d434eb47111441262303";
-        function getWeather(){
-            const city = document.getElementById("city").value.trim();
-            const weatherDiv = document.getElementById("weatherResult");
-            const errorDiv = document.getElementById("errorMsg");
 
-            weatherDiv.style.display = "none";
-            errorDiv.style.display = "none";
-
-            if(!city) {
-                errorDiv.innerText = "Please enter a city name";
-                errorDiv.style.display = "block";
-                return;
-            }
-
-            fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`)
-            .then(res => res.json())
-            .then(data => {
-                if(data.error){
-                    errorDiv.innerText = data.error.message;
-                    errorDiv.style.display = "block";
-                    return;
-                }
-                const w = data.current;
-                const weatherHTML = `
-                <h2>${data.location.name}, ${data.location.country}</h2>
-                <p class="field">Last Updated: ${w.last_updated}</p>
-                <p class="field"><img src="https:${w.condition.icon}" alt="icon">${w.condition.text}</p>
-                <p class="field">Temperature: ${w.temp_c}°C</p>
-                <p class="field">Feels like: ${w.feelslike_c}°C</p>
-                <p class="field">Gust speed: ${w.gust_kph} kph</p>
-                <p class="field">Heat index: ${w.heatindex_c}°C</p>
-                <p class="field">Humidity: ${w.humidity}%</p>
-                <p class="field">Precipitation: ${w.precip_in}in</p>
-                <p class="field">Pressure: ${w.pressure_in} in</p>
-                <p class="field">Wind degree: ${w.wind_degree}°</p>
-                <p class="field">Wind direction: ${w.wind_dir}</p>
-                <p class="field">Wind speed: ${w.wind_kph} kph</p>
-                <p class="field">Wind chill: ${w.windchill_c}°C</p>
-                `;
-
-                weatherDiv.innerHTML = weatherHTML;
-                weatherDiv.style.display = "block";
-            })
-            .catch(err => {
-                errorDiv.innerText = "Error fetching weather. Try again";
-                errorDiv.style.display = "block";
-                console.log(err);
-            });
-        }
-    </script>
 </body>
 </html>
